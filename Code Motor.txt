@@ -1,0 +1,36 @@
+Iot based automatic Motor switch control using Blynk App Code-
+
+define BLYNK_TEMPLATE_ID "TMPL38E6wLL_S" #define BLYNK_TEMPLATE_NAME "IOT Based Automated Motor Switch pump Control"
+
+#include <ESP8266WiFi.h> #include <BlynkSimpleEsp8266.h>
+
+// Blynk Auth Token char auth[] = "RHYrkoYE3LgTrXUEDG4rW_gimR9hDUHe";
+
+// Wi-Fi credentials char ssid[] = "vivo v25"; char pass[] = "Manisha1234";
+
+// Motor and pump control pins const int motorPin1 = D1; const int motorPin2 = D2; const int pumpPin1 = D5; const int pumpPin2 = D6;
+
+void setup() { // Set motor and pump pins as outputs pinMode(motorPin1, OUTPUT); pinMode(motorPin2, OUTPUT); pinMode(pumpPin1, OUTPUT); pinMode(pumpPin2, OUTPUT);
+
+// Initialize motor and pump states (off) digitalWrite(motorPin1, LOW); digitalWrite(motorPin2, LOW); digitalWrite(pumpPin1, LOW); digitalWrite(pumpPin2, LOW);
+
+// Begin Serial communication for debugging Serial.begin(115200);
+
+// Connect to Blynk Blynk.begin(auth, ssid, pass); }
+
+void loop() { Blynk.run(); }
+
+// Blynk virtual pin functions for controlling the motor and pump BLYNK_WRITE(V1) 
+{ // Motor control on V1 int motorState = param.asInt();
+ // Get button value from Blynk app if (motorState == 1) 
+ { digitalWrite(motorPin1, HIGH); digitalWrite(motorPin2, LOW); } 
+ else { digitalWrite(motorPin1, LOW); digitalWrite(motorPin2, LOW); 
+ }
+ }
+
+BLYNK_WRITE(V2) { // Pump control on V2 int pumpState = param.asInt();
+ // Get button value from Blynk app if (pumpState == 1) 
+ { digitalWrite(pumpPin1, HIGH); digitalWrite(pumpPin2, LOW); 
+ } else { digitalWrite(pumpPin1, LOW); digitalWrite(pumpPin2, LOW); 
+ } 
+ }
